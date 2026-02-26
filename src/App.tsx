@@ -63,7 +63,7 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function Home() {
+function Home({ showToast }: { showToast: (msg: string) => void }) {
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
@@ -239,7 +239,10 @@ function Home() {
                     className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <button className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-sm text-purple-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white hover:text-red-500 shadow-sm z-10">
+                  <button 
+                    onClick={(e) => { e.preventDefault(); showToast('Added to wishlist!'); }}
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-sm text-purple-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white hover:text-red-500 shadow-sm z-10"
+                  >
                     <Heart className="w-4 h-4" />
                   </button>
                 </div>
@@ -391,7 +394,7 @@ function Home() {
   );
 }
 
-function CategoryPage() {
+function CategoryPage({ showToast }: { showToast: (msg: string) => void }) {
   const { id } = useParams();
   const category = CATEGORIES.find(c => c.id === id);
   
@@ -437,7 +440,10 @@ function CategoryPage() {
                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
-              <button className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-sm text-purple-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white hover:text-red-500 shadow-sm z-10">
+              <button 
+                onClick={(e) => { e.preventDefault(); showToast('Added to wishlist!'); }}
+                className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-sm text-purple-900 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white hover:text-red-500 shadow-sm z-10"
+              >
                 <Heart className="w-4 h-4" />
               </button>
             </div>
@@ -664,7 +670,13 @@ export default function App() {
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [searchQuery, setSearchQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState(['Sneakers', 'Denim', 'Accessories']);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const suggestions = ['Summer Dresses', 'Men\'s Shoes', 'Kids Overalls', 'Leather Bags'];
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -763,6 +775,14 @@ export default function App() {
                 title="Account"
               >
                 <User className="h-5 w-5" />
+              </button>
+              <button 
+                onClick={() => showToast('Cart feature coming soon!')}
+                className="text-purple-600 hover:text-purple-900 cursor-pointer relative" 
+                title="Cart"
+              >
+                <ShoppingBag className="h-5 w-5" />
+                <span className="absolute -top-1.5 -right-1.5 bg-purple-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
               </button>
             </div>
           </div>
@@ -872,10 +892,10 @@ export default function App() {
                   <h3 className="text-2xl font-serif font-bold mb-2 text-purple-950">Welcome Back</h3>
                   <p className="text-purple-600/70 mb-8">Sign in to your account to manage orders and preferences.</p>
                   <div className="space-y-4">
-                    <button className="w-full bg-purple-700 text-white py-3 rounded-lg font-medium hover:bg-purple-800 transition-colors">
+                    <button onClick={() => showToast('Sign in feature coming soon!')} className="w-full bg-purple-700 text-white py-3 rounded-lg font-medium hover:bg-purple-800 transition-colors">
                       Sign In
                     </button>
-                    <button className="w-full border border-purple-200 py-3 rounded-lg font-medium hover:bg-purple-50 text-purple-700 transition-colors">
+                    <button onClick={() => showToast('Account creation coming soon!')} className="w-full border border-purple-200 py-3 rounded-lg font-medium hover:bg-purple-50 text-purple-700 transition-colors">
                       Create Account
                     </button>
                   </div>
@@ -928,11 +948,25 @@ export default function App() {
 
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category/:id" element={<CategoryPage />} />
+          <Route path="/" element={<Home showToast={showToast} />} />
+          <Route path="/category/:id" element={<CategoryPage showToast={showToast} />} />
           <Route path="/info/:type" element={<InfoPage />} />
         </Routes>
       </main>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 50, x: '-50%' }}
+            className="fixed bottom-24 left-1/2 z-[100] bg-purple-900 text-white px-6 py-3 rounded-full shadow-xl text-sm font-medium whitespace-nowrap"
+          >
+            {toastMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Chatbot />
 
