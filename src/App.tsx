@@ -88,12 +88,38 @@ function Home() {
     }
   };
 
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "Ayn's Closet",
+    "image": "https://scontent.fcgy1-2.fna.fbcdn.net/v/t39.30808-6/522751706_122249828438075467_2826286420784318693_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=AVLPOL4qjjoQ7kNvwFbK97w&_nc_oc=AdmNxqwLv364DEv40TryNAEvhQwlgm269xyaeyg3mqXj1r7KV5JDnDE_eIoa9WsSRwk&_nc_zt=23&_nc_ht=scontent.fcgy1-2.fna&_nc_gid=3unsPNdcwrHL_Hns9V262A&oh=00_AftX9pMBL4Q6K22mEjFJAoU92SnQW_aSmPAYI8wWJ3Vu2w&oe=69A593FC",
+    "@id": "https://www.facebook.com/aynscloset",
+    "url": "https://www.facebook.com/aynscloset",
+    "telephone": "09513841612",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Cogon Biao Escuela, Tugbok District",
+      "addressLocality": "Davao City",
+      "addressRegion": "Davao del Sur",
+      "addressCountry": "PH"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 7.1689188,
+      "longitude": 125.5203417
+    },
+    "sameAs": [
+      "https://www.facebook.com/aynscloset"
+    ]
+  };
+
   return (
     <>
       <SEO 
         title="Ayn's Closet | Women's, Men's & Kids Clothing in Davao City"
         description="Shop Ayn's Closet in Davao City for the latest trends in women's and men's clothing, kids' apparel, shoes, and accessories. Visit us at Cogon Biao Escuela, Tugbok District."
         keywords="Ayn's Closet, Davao City clothing store, Tugbok District boutique, women's clothing Davao, men's clothing Davao, kids apparel Davao, shoes, fashion accessories"
+        schema={localBusinessSchema}
       />
       {/* Hero Section */}
       <section className="relative h-[60vh] sm:h-[70vh] min-h-[400px] sm:min-h-[500px] flex items-center justify-center overflow-hidden">
@@ -372,27 +398,27 @@ function CategoryPage() {
   if (!category) return <div className="py-24 text-center">Category not found</div>;
 
   const seoDescriptions: Record<string, string> = {
-    'womens-clothing': "Explore Ayn's Closet for the latest trends in women's clothing. Shop stylish dresses, tops, bottoms, and outerwear designed for the modern woman.",
-    'mens-clothing': "Upgrade your wardrobe with Ayn's Closet's men's clothing collection. Discover premium shirts, pants, jackets, and everyday essentials.",
-    'kids': "Shop adorable and durable kids' clothing at Ayn's Closet. Find comfortable, stylish outfits for boys and girls of all ages.",
-    'shoes': "Step out in style with our curated collection of shoes at Ayn's Closet. From casual sneakers to elegant heels, find your perfect pair.",
-    'accessories': "Complete your look with fashion accessories from Ayn's Closet. Shop our selection of bags, sunglasses, jewelry, and more."
+    'womens-clothing': "Explore Ayn's Closet in Davao City for the latest trends in women's clothing. Shop stylish dresses, tops, bottoms, and outerwear designed for the modern woman.",
+    'mens-clothing': "Upgrade your wardrobe with Ayn's Closet's men's clothing collection in Davao City. Discover premium shirts, pants, jackets, and everyday essentials.",
+    'kids': "Shop adorable and durable kids' clothing at Ayn's Closet, Davao City. Find comfortable, stylish outfits for boys and girls of all ages.",
+    'shoes': "Step out in style with our curated collection of shoes at Ayn's Closet, Davao City. From casual sneakers to elegant heels, find your perfect pair.",
+    'accessories': "Complete your look with fashion accessories from Ayn's Closet in Davao City. Shop our selection of bags, sunglasses, jewelry, and more."
   };
 
   const seoKeywords: Record<string, string> = {
-    'womens-clothing': "women's clothing, women's fashion, dresses, tops, boutique women's apparel",
-    'mens-clothing': "men's clothing, men's fashion, men's shirts, men's jackets, boutique men's apparel",
-    'kids': "kids clothing, children's apparel, boys clothing, girls clothing, toddler clothes",
-    'shoes': "shoes, sneakers, boots, heels, footwear, stylish shoes",
-    'accessories': "fashion accessories, handbags, sunglasses, jewelry, stylish accessories"
+    'womens-clothing': "women's clothing Davao City, women's fashion Davao, dresses, tops, boutique women's apparel Tugbok",
+    'mens-clothing': "men's clothing Davao City, men's fashion Davao, men's shirts, men's jackets, boutique men's apparel Tugbok",
+    'kids': "kids clothing Davao City, children's apparel Davao, boys clothing, girls clothing, toddler clothes Tugbok",
+    'shoes': "shoes Davao City, sneakers, boots, heels, footwear, stylish shoes Davao",
+    'accessories': "fashion accessories Davao City, handbags, sunglasses, jewelry, stylish accessories Davao"
   };
 
   return (
     <div className="py-12 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <SEO 
-        title={`${category.name} | Ayn's Closet`}
-        description={seoDescriptions[id as string] || `Shop the best selection of ${category.name.toLowerCase()} at Ayn's Closet.`}
-        keywords={seoKeywords[id as string] || `${category.name.toLowerCase()}, Ayn's Closet, fashion`}
+        title={`${category.name} | Ayn's Closet Davao City`}
+        description={seoDescriptions[id as string] || `Shop the best selection of ${category.name.toLowerCase()} at Ayn's Closet in Davao City.`}
+        keywords={seoKeywords[id as string] || `${category.name.toLowerCase()} Davao City, Ayn's Closet, fashion Davao`}
       />
       <h1 className="text-3xl sm:text-5xl font-serif font-bold text-purple-950 mb-8">{category.name}</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-6 gap-y-8 sm:gap-y-10">
@@ -474,7 +500,11 @@ function InfoPage() {
 
   return (
     <div className="py-12 sm:py-24 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SEO title={`${page.title} | Ayn's Closet`} description={page.text} />
+      <SEO 
+        title={`${page.title} | Ayn's Closet Davao City`} 
+        description={page.text} 
+        keywords={`Ayn's Closet, ${page.title}, Davao City, Tugbok District, clothing store policies`}
+      />
       <h1 className="text-3xl sm:text-5xl font-serif font-bold text-purple-950 mb-8">{page.title}</h1>
       <div className="prose prose-purple max-w-none">
         <p className="text-purple-900/80 leading-relaxed text-lg">{page.text}</p>

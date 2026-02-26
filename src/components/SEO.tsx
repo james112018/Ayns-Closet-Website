@@ -6,9 +6,10 @@ interface SEOProps {
   description: string;
   keywords?: string;
   url?: string;
+  schema?: object;
 }
 
-export default function SEO({ title, description, keywords, url = "https://www.facebook.com/aynscloset" }: SEOProps) {
+export default function SEO({ title, description, keywords, url = "https://www.facebook.com/aynscloset", schema }: SEOProps) {
   return (
     <Helmet>
       <title>{title}</title>
@@ -27,6 +28,13 @@ export default function SEO({ title, description, keywords, url = "https://www.f
       <meta property="twitter:url" content={url} />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
+
+      {/* Structured Data */}
+      {schema && (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      )}
     </Helmet>
   );
 }
